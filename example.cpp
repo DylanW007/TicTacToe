@@ -18,6 +18,10 @@ void numberguess(){
 
 }
 
+void numberlogic(){
+  if (NumberGuess > RandomNumber);
+}
+
 int main(){
   
   cout << "Guess a number and I will tell you if its too high or low.";
