@@ -2,110 +2,174 @@
 #include <cstdlib> //Needed for exiting program (exit(0);)
 using namespace std;
 
-int main(){
-
-  /*
-  bool end = false;
-  while (false){
-      char ch = 'e';
-      if (ch == 101){
-	cout << "It's ESC" << endl;
-	exit(0);
-      }
-  }
-  */
-  
-  //----------------------------------------------------------------------------
-  char board[3][3] = {{'.','.','.'},{'.','.','.'},{'.','.','.'}};
-
-  int i, t;
-  
-  cout << "Printing Board:" << "\n";
-  for (i = 0; i < 3; i++){
+//----------------------------------------------------------------------------
+void printBoard(char board[3][3])
+{
+  cout << "Printing Board:\n";
+  cout << "  1 2 3" << endl;
+  for (int i = 0; i < 3; i++){
+    cout << i+1 << " ";
+    for (int t = 0; t < 3; t++){
+      cout << board[i][t] << " ";
+    }
     cout << "\n";
-    for (t = 0; t < 3; t++){
-      cout << board[i][t];
-    }
-  }
-  //-----------------------------------------------------------------
-  
-  char player;
-  
-  cout << "\n\n" << "What player are you? (X or Y): ";
-  cin >> player;
-  
-  //----------------------------------------------------------------------------
-  int row;
-  int column;
-  
-  bool game = true;
-  
-  while (game == true){
-  
-    bool rowcheck = false;
-  
-    while (rowcheck == false){
-        cout << "\n" << "What row would you like to place on? : ";
-        cin >> row;
-  
-        if (row <= 3){
-            rowcheck = true;
+  }    
+}
+
+//----------------------------------------------------------------------------
+bool hasWon(char board[3][3], char player)
+{
+    for (int i = 0; i <= 2; i++){
+        // check horizontal
+        if (board[i][0] == player && board[i][1] == player && board[i][2] == player){
+ 	        cout << "\n" << char(player) << " Wins Across" << endl;
+ 	        return true;
         }
-        else{
-            cout << "\n" << "Row too high. Try again with a number 1-3" << endl;
-            rowcheck = false;
+        // check verticals
+        else if (board[0][i] == player && board[1][i] == player && board[2][i] == player){
+            cout << "\n" << char(player) << " Wins Vertically" << endl;
+            return true;
         }
     }
     
-    bool columncheck = false;
-  
-    while (columncheck == false){
-        cout << "What column would you like to place on? : ";
-        cin >> column;
+    // check diagonal
+    if (board[0][0] == player &&
+        board[1][1] == player &&
+        board[2][2] == player)
+    {
+        cout << "\n" << char(player) << " Wins diagonally" << endl;
+        return true;
+    }
     
-        if (column <= 3){
-            columncheck = true;
+    // check other diagonal
+    if (board[0][2] == player &&
+        board[1][1] == player &&
+        board[2][0] == player)
+    {
+        cout << "\n" << char(player) << " Wins diagonally" << endl;
+        return true;
+    }
+
+    return false;
+}
+
+//----------------------------------------------------------------------------
+int askIndex(const char* label)
+{
+    int index = 0;
+    
+    bool check = false;
+    while (check == false){
+        cout << "What " << label << " would you like to place on? : ";
+        cin >> index;
+
+        if (index >= 1 && index <= 3){
+            check = true;
         } 
         else{
-            cout << "\n" << "Column too high. Try again with a number 1-3" << endl;
-            columncheck = false;
+            cout << endl << label << " is invalid. Try again with a number 1-3." << endl;
+            check = false;
         }
-    }
-  //----------------------------------------------------------------------------
-  
-    if (player == 'X' or player == 'x'){
-        board[int(row-1)][int(column-1)] = 'X';
-        player = int(player + 1);
-    }
-    else{
-        board[int(row-1)][int(column-1)] = 'O';
-        player = int(player - 1);
-    }
-  
-    cout << "\n" << "Printing Board:" << "\n";
-    for (i = 0; i < 3; i++){
-        cout << "\n";
-        for (t = 0; t < 3; t++){
-            cout << board[i][t];
-        }
-    }
-    cout << "\n";
- 
-
- //---------------------------------------------------------------------------
-  
-    for (int i = 0; i <= 2; i++){
-      cout << player;
-      //cout << int(i);
-      if (board[i][0] == player and board[i][1] == player and board[i][2] == player){
-     	cout << "Win Across";
-      }
-      else if (board[0][i] == player and board[1][i] == player and board[2][i] == player){
-	cout << "Win Vertically";
-      }
     }
     
-  }
+    return index;
+}
+
+//----------------------------------------------------------------------------
+bool playGame()
+{
+    // initialize board
+    char board[3][3] = {{'.','.','.'},{'.','.','.'},{'.','.','.'}};
+    
+    int row;
+    int column;
+    char player;
   
-  return 0;
+    printBoard(board);
+  
+      
+    bool lettercheck = false;
+    while (lettercheck == false){
+        cout << endl << endl << "What player are you? (X or O): ";
+        cin >> player;
+    
+        if (player != 'X' && player != 'x' && player != 'O' && player != 'o')
+        {
+            cout << endl << "Invalid player type.";
+        }
+        else
+        {
+            lettercheck = true;
+        }
+    }
+
+    bool playing = true;
+    while (playing == true)
+    {
+        bool placecheck = false;
+        while (placecheck == false)
+        {
+            // ask for row and column index from the player
+            row = askIndex("row");
+            column = askIndex("column");
+    
+            // check if spot is occupied
+            if (board[int(row-1)][int(column-1)] != '.')
+            {
+                cout << "\n" << "Spot is occupied" << endl;
+            }
+            else{
+                placecheck = true;
+            }
+        }
+
+        if (player == 'X' or player == 'x')
+        {
+            board[int(row-1)][int(column-1)] = 'X';
+        }
+        else
+        {
+            board[int(row-1)][int(column-1)] = 'O';
+        }
+
+        printBoard(board);
+    
+        if (hasWon(board, player))
+        {
+            char reply = 'n';
+            
+            cout << "Do you want to play another game? [y/n]: ";
+            cin >> reply;
+            
+            if (reply != 'y')
+            {
+                cout << "Thanks for playing!" << endl;
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+    
+        cout << endl << "Current Player: " << ((player == 'X' || player == 'x') ? char('O') : char('X')) << endl;
+        player = (player == 'X' || player == 'x') ? 'O' : 'X';
+    }
+
+    return false;
+}
+
+//----------------------------------------------------------------------------
+int main()
+{
+    bool play = true;
+    
+    // main game loop
+    while(play)
+    {
+        // play game until it returns false
+        play = playGame();
+    }
+  
+    return 0;
 }
