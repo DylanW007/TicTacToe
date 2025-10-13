@@ -12,9 +12,6 @@ turns placing X or O depending on which player went first.
 #include <cstdlib> // Needed for exiting program (exit(0);)
 using namespace std;
 
-int playerXScore = 0;
-int playerOScore = 0;
-
 // Will initialize the board.
 void printBoard(char board[3][3])
 {
@@ -30,7 +27,7 @@ void printBoard(char board[3][3])
 }
 
 // Checks all possible outcomes.
-bool hasWon(char board[3][3], char player)
+bool hasWon(char (&board)[3][3], char player, int &playerXScore, int &playerOScore)
 {
     for (int i = 0; i <= 2; i++){
         // Check horizontal
@@ -143,7 +140,7 @@ int askIndex(const char* label)
 }
 
 // The function to run the whole game.
-bool playGame()
+bool playGame(int &playerXScore, int &playerOScore)
 {
     // Initialize board
     char board[3][3] = {{'.','.','.'},{'.','.','.'},{'.','.','.'}};
@@ -201,7 +198,7 @@ bool playGame()
 
         printBoard(board);
     
-        if (hasWon(board, player))
+        if (hasWon(board, player, playerXScore, playerOScore))
         {
             char reply = 'n';
             
@@ -228,13 +225,16 @@ bool playGame()
 
 int main()
 {
+    int playerXScore = 0;
+    int playerOScore = 0;
+    
     bool play = true;
     
     // Main game loop
     while(play)
     {
         // Play game until it returns false
-        play = playGame();
+        play = playGame(playerXScore,playerOScore);
     }
   
     return 0;
