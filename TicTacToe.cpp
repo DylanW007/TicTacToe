@@ -110,8 +110,8 @@ bool hasWon(char board[3][3], char player)
         board[2][0] != '.' && board[2][1] != '.' && board[2][2] != '.'){
             cout << "\n" << "You have tied" << endl;
             
-            playerXScore =+ 1;
-            playerOScore =+ 1;
+            playerXScore += 1;
+            playerOScore += 1;
         
             cout << "Player X: " << playerXScore << " Player O: " << playerOScore << endl;
             
