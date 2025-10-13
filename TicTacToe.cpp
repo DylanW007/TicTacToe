@@ -19,9 +19,9 @@ void printBoard(char board[3][3])
   cout << "Printing Board:\n";
   cout << "  1 2 3" << endl;
   for (int i = 0; i < 3; i++){
-    cout << i+1 << " ";
+      cout << i+1 << " ";
     for (int t = 0; t < 3; t++){
-      cout << board[i][t] << " ";
+        cout << board[i][t] << " ";
     }
     cout << "\n";
   }    
@@ -45,32 +45,36 @@ bool hasWon(char board[3][3], char player)
     }
     
     // Check diagonal
-    if (board[0][0] == player &&
-        board[1][1] == player &&
-        board[2][2] == player)
-    {
+    if (board[0][0] == player && 
+        board[1][1] == player && 
+        board[2][2] == player){
         cout << "\n" << char(player) << " Wins diagonally" << endl;
         return true;
     }
     
     // Check other diagonal
-    if (board[0][2] == player &&
-        board[1][1] == player &&
-        board[2][0] == player)
-    {
+    if (board[0][2] == player && 
+        board[1][1] == player && 
+        board[2][0] == player){
         cout << "\n" << char(player) << " Wins diagonally" << endl;
         return true;
     }
-
+    
+    if (board[0][0] != '.' && board[0][1] != '.' && board[0][2] != '.' &&
+        board[1][0] != '.' && board[1][1] != '.' && board[1][2] != '.' &&
+        board[2][0] != '.' && board[2][1] != '.' && board[2][2] != '.'){
+            cout << "\n" << "You have tied" << endl;
+            return true;
+        }
+    
     return false;
 }
 
 //----------------------------------------------------------------------------
-// CHecks which letter, X or O the player will place
+// Checks which letter, X or O the player will place
 int askIndex(const char* label)
 {
     int index = 0;
-    
     bool check = false;
     while (check == false){
         cout << "What " << label << " would you like to place on? : ";
