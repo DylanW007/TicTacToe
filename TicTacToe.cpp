@@ -1,8 +1,19 @@
+/*
+Dylan Waters
+10/12/25
+
+Name : TicTacToe C++
+
+Description : Program that will display a 3x3 table. Two players will take
+turns placing X or O depending on which player went first.
+*/
+
 #include <iostream>
-#include <cstdlib> //Needed for exiting program (exit(0);)
+#include <cstdlib> // Needed for exiting program (exit(0);)
 using namespace std;
 
 //----------------------------------------------------------------------------
+// Will initialize the board.
 void printBoard(char board[3][3])
 {
   cout << "Printing Board:\n";
@@ -17,22 +28,23 @@ void printBoard(char board[3][3])
 }
 
 //----------------------------------------------------------------------------
+// Checks all possible outcomes.
 bool hasWon(char board[3][3], char player)
 {
     for (int i = 0; i <= 2; i++){
-        // check horizontal
+        // Check horizontal
         if (board[i][0] == player && board[i][1] == player && board[i][2] == player){
  	        cout << "\n" << char(player) << " Wins Across" << endl;
  	        return true;
         }
-        // check verticals
+        // Check verticals
         else if (board[0][i] == player && board[1][i] == player && board[2][i] == player){
             cout << "\n" << char(player) << " Wins Vertically" << endl;
             return true;
         }
     }
     
-    // check diagonal
+    // Check diagonal
     if (board[0][0] == player &&
         board[1][1] == player &&
         board[2][2] == player)
@@ -41,7 +53,7 @@ bool hasWon(char board[3][3], char player)
         return true;
     }
     
-    // check other diagonal
+    // Check other diagonal
     if (board[0][2] == player &&
         board[1][1] == player &&
         board[2][0] == player)
@@ -54,6 +66,7 @@ bool hasWon(char board[3][3], char player)
 }
 
 //----------------------------------------------------------------------------
+// CHecks which letter, X or O the player will place
 int askIndex(const char* label)
 {
     int index = 0;
@@ -76,6 +89,7 @@ int askIndex(const char* label)
 }
 
 //----------------------------------------------------------------------------
+// The function to run the whole game.
 bool playGame()
 {
     // initialize board
@@ -87,7 +101,7 @@ bool playGame()
   
     printBoard(board);
   
-      
+    //Will make sure letter is the correct one. (X or O). 
     bool lettercheck = false;
     while (lettercheck == false){
         cout << endl << endl << "What player are you? (X or O): ";
