@@ -12,6 +12,9 @@ turns placing X or O depending on which player went first.
 #include <cstdlib> // Needed for exiting program (exit(0);)
 using namespace std;
 
+int playerXScore = 0;
+int playerOScore = 0;
+
 // Will initialize the board.
 void printBoard(char board[3][3])
 {
@@ -27,7 +30,7 @@ void printBoard(char board[3][3])
 }
 
 // Checks all possible outcomes.
-bool hasWon(char board[3][3], char player, int(playerXScore), int(playerOScore))
+bool hasWon(char board[3][3], char player)
 {
     for (int i = 0; i <= 2; i++){
         // Check horizontal
@@ -37,10 +40,10 @@ bool hasWon(char board[3][3], char player, int(playerXScore), int(playerOScore))
  	        cout << "\n" << char(player) << " Wins Across" << endl;
  	        
             if (player == 'X' or player == 'x'){
-                playerXScore = playerXScore =+ 1;
+                playerXScore += 1;
             }
             else{
-                playerOScore = playerOScore =+ 1;
+                playerOScore += 1;
             }
         
             cout << "Player X: " << playerXScore << " Player O: " << playerOScore << endl;
@@ -54,10 +57,10 @@ bool hasWon(char board[3][3], char player, int(playerXScore), int(playerOScore))
             cout << "\n" << char(player) << " Wins Vertically" << endl;
             
             if (player == 'X' or player == 'x'){
-                playerXScore = playerXScore =+ 1;
+                playerXScore += 1;
             }
             else{
-                playerOScore = playerOScore =+ 1;
+                playerOScore += 1;
             }
         
             cout << "Player X: " << playerXScore << " Player O: " << playerOScore << endl;
@@ -73,10 +76,10 @@ bool hasWon(char board[3][3], char player, int(playerXScore), int(playerOScore))
         cout << "\n" << char(player) << " Wins diagonally" << endl;
         
         if (player == 'X' or player == 'x'){
-            playerXScore = playerXScore =+ 1;
+            playerXScore += 1;
         }
         else{
-            playerOScore = playerOScore =+ 1;
+            playerOScore += 1;
         }
         
         cout << "Player X: " << playerXScore << " Player O: " << playerOScore << endl;
@@ -90,10 +93,10 @@ bool hasWon(char board[3][3], char player, int(playerXScore), int(playerOScore))
         cout << "\n" << char(player) << " Wins diagonally" << endl;
         
         if (player == 'X' or player == 'x'){
-            playerXScore = playerXScore =+ 1;
+            playerXScore += 1;
         }
         else{
-            playerOScore = playerOScore =+ 1;
+            playerOScore += 1;
         }
         
         cout << "Player X: " << playerXScore << " Player O: " << playerOScore << endl;
@@ -107,8 +110,8 @@ bool hasWon(char board[3][3], char player, int(playerXScore), int(playerOScore))
         board[2][0] != '.' && board[2][1] != '.' && board[2][2] != '.'){
             cout << "\n" << "You have tied" << endl;
             
-            playerXScore = playerXScore =+ 1;
-            playerOScore = playerOScore =+ 1;
+            playerXScore =+ 1;
+            playerOScore =+ 1;
         
             cout << "Player X: " << playerXScore << " Player O: " << playerOScore << endl;
             
@@ -148,9 +151,6 @@ bool playGame()
     int row;
     int column;
     char player;
-    
-    int playerXScore = 0;
-    int playerOScore = 0;
   
     printBoard(board);
   
@@ -201,7 +201,7 @@ bool playGame()
 
         printBoard(board);
     
-        if (hasWon(board, player, playerXScore, playerOScore))
+        if (hasWon(board, player))
         {
             char reply = 'n';
             
