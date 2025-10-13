@@ -12,7 +12,6 @@ turns placing X or O depending on which player went first.
 #include <cstdlib> // Needed for exiting program (exit(0);)
 using namespace std;
 
-//----------------------------------------------------------------------------
 // Will initialize the board.
 void printBoard(char board[3][3])
 {
@@ -27,19 +26,42 @@ void printBoard(char board[3][3])
   }    
 }
 
-//----------------------------------------------------------------------------
 // Checks all possible outcomes.
-bool hasWon(char board[3][3], char player)
+bool hasWon(char board[3][3], char player, int(playerXScore), int(playerOScore))
 {
     for (int i = 0; i <= 2; i++){
         // Check horizontal
-        if (board[i][0] == player && board[i][1] == player && board[i][2] == player){
+        if (board[i][0] == player && 
+            board[i][1] == player && 
+            board[i][2] == player){
  	        cout << "\n" << char(player) << " Wins Across" << endl;
+ 	        
+            if (player == 'X' or player == 'x'){
+                playerXScore = playerXScore =+ 1;
+            }
+            else{
+                playerOScore = playerOScore =+ 1;
+            }
+        
+            cout << "Player X: " << playerXScore << " Player O: " << playerOScore << endl;
+ 	        
  	        return true;
         }
         // Check verticals
-        else if (board[0][i] == player && board[1][i] == player && board[2][i] == player){
+        else if (board[0][i] == player && 
+                 board[1][i] == player && 
+                 board[2][i] == player){
             cout << "\n" << char(player) << " Wins Vertically" << endl;
+            
+            if (player == 'X' or player == 'x'){
+                playerXScore = playerXScore =+ 1;
+            }
+            else{
+                playerOScore = playerOScore =+ 1;
+            }
+        
+            cout << "Player X: " << playerXScore << " Player O: " << playerOScore << endl;
+            
             return true;
         }
     }
@@ -49,6 +71,15 @@ bool hasWon(char board[3][3], char player)
         board[1][1] == player && 
         board[2][2] == player){
         cout << "\n" << char(player) << " Wins diagonally" << endl;
+        
+        if (player == 'X' or player == 'x'){
+            playerXScore = playerXScore =+ 1;
+        }
+        else{
+            playerOScore = playerOScore =+ 1;
+        }
+        
+        cout << "Player X: " << playerXScore << " Player O: " << playerOScore << endl;
         return true;
     }
     
@@ -57,20 +88,36 @@ bool hasWon(char board[3][3], char player)
         board[1][1] == player && 
         board[2][0] == player){
         cout << "\n" << char(player) << " Wins diagonally" << endl;
+        
+        if (player == 'X' or player == 'x'){
+            playerXScore = playerXScore =+ 1;
+        }
+        else{
+            playerOScore = playerOScore =+ 1;
+        }
+        
+        cout << "Player X: " << playerXScore << " Player O: " << playerOScore << endl;
+        
         return true;
     }
     
+    // Check tie. Will return true if every spot is filled up.
     if (board[0][0] != '.' && board[0][1] != '.' && board[0][2] != '.' &&
         board[1][0] != '.' && board[1][1] != '.' && board[1][2] != '.' &&
         board[2][0] != '.' && board[2][1] != '.' && board[2][2] != '.'){
             cout << "\n" << "You have tied" << endl;
+            
+            playerXScore = playerXScore =+ 1;
+            playerOScore = playerOScore =+ 1;
+        
+            cout << "Player X: " << playerXScore << " Player O: " << playerOScore << endl;
+            
             return true;
         }
     
     return false;
 }
 
-//----------------------------------------------------------------------------
 // Checks which letter, X or O the player will place
 int askIndex(const char* label)
 {
@@ -92,20 +139,22 @@ int askIndex(const char* label)
     return index;
 }
 
-//----------------------------------------------------------------------------
 // The function to run the whole game.
 bool playGame()
 {
-    // initialize board
+    // Initialize board
     char board[3][3] = {{'.','.','.'},{'.','.','.'},{'.','.','.'}};
     
     int row;
     int column;
     char player;
+    
+    int playerXScore = 0;
+    int playerOScore = 0;
   
     printBoard(board);
   
-    //Will make sure letter is the correct one. (X or O). 
+    // Will make sure letter is the correct one. (X or O). 
     bool lettercheck = false;
     while (lettercheck == false){
         cout << endl << endl << "What player are you? (X or O): ";
@@ -127,11 +176,11 @@ bool playGame()
         bool placecheck = false;
         while (placecheck == false)
         {
-            // ask for row and column index from the player
+            // Ask for row and column index from the player
             row = askIndex("row");
             column = askIndex("column");
     
-            // check if spot is occupied
+            // Check if spot is occupied
             if (board[int(row-1)][int(column-1)] != '.')
             {
                 cout << "\n" << "Spot is occupied" << endl;
@@ -152,7 +201,7 @@ bool playGame()
 
         printBoard(board);
     
-        if (hasWon(board, player))
+        if (hasWon(board, player, playerXScore, playerOScore))
         {
             char reply = 'n';
             
@@ -177,15 +226,14 @@ bool playGame()
     return false;
 }
 
-//----------------------------------------------------------------------------
 int main()
 {
     bool play = true;
     
-    // main game loop
+    // Main game loop
     while(play)
     {
-        // play game until it returns false
+        // Play game until it returns false
         play = playGame();
     }
   
